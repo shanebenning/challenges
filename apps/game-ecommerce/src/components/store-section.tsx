@@ -3,6 +3,8 @@ import useSWR from 'swr';
 import { BASE_URL } from '~/lib/constants';
 import { CaretRight } from 'phosphor-react';
 import Container from './container';
+import GamePreview from './game-preview';
+import Link from 'next/link';
 
 const StoreSection = ({ contentId }: { contentId: string }) => {
   const { data, isValidating } = useSWR<StoreSectionContent>(`${ BASE_URL }/api/store?section=${contentId}`, { suspense: true })
@@ -11,19 +13,24 @@ const StoreSection = ({ contentId }: { contentId: string }) => {
     return (
       <section>
         <Container>
-          <h2 className="flex space-x-1">
-            <span className="text-xl font-semibold capitalize">
-              { data.title }
+          <h2 className="my-4 flex space-x-1">
+            <span className="text-3xl font-bold capitalize">
+              { (typeof data.href !== "undefined") 
+                ? (
+                  <Link href={ data.href }>
+                    <a>{ data.title }</a>
+                  </Link>
+                  ) 
+                : data.title 
+              }
             </span>
-            <span className="mt-2">
+            <span className="mt-3.5">
               <CaretRight size={ 16 } aria-hidden={ true } weight="bold" />
             </span>
           </h2>
-          <div className="">
+          <div className="flex space-x-4">
             { data.content.length > 0 && data.content.map((game) => (
-              <>
-                <div>{ game }</div>
-              </>
+              <GamePreview key={ game.title } game={ game } />
             )) }
           </div>
         </Container>

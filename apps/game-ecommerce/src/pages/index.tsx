@@ -14,14 +14,18 @@ const StoreSection = lazy(() => import('~/components/store-section'))
 const HomePage: NextPage = () => {
   return (
     <>
-      <Container>
-        <h1>Store</h1>
-      </Container>
-
       <div>
         <ErrorBoundary fallback={ <Error>Unable to load content.</Error> }>
           <Suspense fallback={ <p>Loading...</p> }>
             <StoreSection contentId="12345" />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
+
+      <div>
+        <ErrorBoundary fallback={ <Error>Unable to load content.</Error> }>
+          <Suspense fallback={ <p>Loading...</p> }>
+            <StoreSection contentId="67890" />
           </Suspense>
         </ErrorBoundary>
       </div>
